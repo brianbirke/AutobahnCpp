@@ -216,6 +216,21 @@ public:
      */
     virtual boost::future<wamp_authenticate> on_challenge(const wamp_challenge& challenge);
 
+    /*!
+     * Function called by the session when abort received from router.
+     *
+     * \param the original wamp_message from the router 
+     */
+    virtual void on_abort( const wamp_message& message);
+
+    /*!
+     * Function called by the session when abort received from router.
+     *
+     * \param the original wamp_message from the router 
+     */
+    uint64_t sessionId() const { 
+        return m_session_id;
+    }
 
 private:
 
@@ -224,6 +239,9 @@ private:
 
     /// Process a WAMP HELLO message.
     void process_welcome(const wamp_message& message);
+
+    /// Process a WAMP ABORT message.
+    void process_abort(const wamp_message& message);
 
     /// Process a WAMP CHALLENGE message.
     void process_challenge(const wamp_message& message);
@@ -298,6 +316,9 @@ private:
 
     /// Future to be fired when session was joined.
     boost::promise<uint64_t> m_session_join;
+
+    /// Future to be fired when an abort is received.
+    boost::promise<wamp_message> m_session_abort;
 
     bool m_goodbye_sent;
 

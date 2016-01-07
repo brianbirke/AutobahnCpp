@@ -761,6 +761,12 @@ void wamp_session<IStream, OStream>::process_welcome(const wamp_message& message
 }
 
 template<typename IStream, typename OStream>
+void wamp_session<IStream, OStream>::process_abort(const wamp_message& message)
+{
+    on_abort( message ); 
+}
+
+template<typename IStream, typename OStream>
 void wamp_session<IStream, OStream>::process_goodbye(const wamp_message& message)
 {
     m_session_id = 0;
@@ -1279,7 +1285,7 @@ void wamp_session<IStream, OStream>::got_message(
             process_welcome(message);
             break;
         case message_type::ABORT:
-            // FIXME
+            process_abort(message);
             break;
         case message_type::CHALLENGE:
             process_challenge(message);
@@ -1382,6 +1388,12 @@ boost::future<wamp_authenticate> wamp_session<IStream, OStream>::on_challenge(co
     boost::promise<wamp_authenticate> dummy;
     dummy.set_value( wamp_authenticate( "" ) );
     return dummy.get_future();
+}
+
+template<typename IStream, typename OStream>
+void wamp_session<IStream, OStream>::on_abort(const wamp_message& message) {
+    // a dummy implementation
+    //
 }
 
 
