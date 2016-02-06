@@ -228,9 +228,9 @@ public:
      *
      * \param the original wamp_message from the router 
      */
-    uint64_t sessionId() const { 
-        return m_session_id;
-    }
+    //uint64_t sessionId() const { 
+    //    return m_session_id;
+    //}
 
 private:
 
